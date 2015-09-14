@@ -8,19 +8,23 @@ class App extends React.Component {
 
 	render() {
 		return (
-			<header>
-				<h1>Relay Isomorphic Starter Kit</h1>
-			</header>
-			
-			{children}
+			<section>
+				<header>
+					<h1>Relay Isomorphic Starter Kit</h1>
+				</header>
 
-			<footer>
-				<p>
-					<a href="https://github.com/DanielHuisman/relay-isomorphic-starter-kit">
-						https://github.com/DanielHuisman/relay-isomorphic-starter-kit
-					</a>
-				</p>
-			</footer>
+				<div>
+					{this.props.children}
+				</div>
+
+				<footer>
+					<p>
+						<a href="https://github.com/DanielHuisman/relay-isomorphic-starter-kit">
+							https://github.com/DanielHuisman/relay-isomorphic-starter-kit
+						</a>
+					</p>
+				</footer>
+			</section>
 		);
 	}
 };

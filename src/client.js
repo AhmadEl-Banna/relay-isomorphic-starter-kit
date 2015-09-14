@@ -6,10 +6,6 @@ import createBrowserHistory from "history/lib/createBrowserHistory";
 
 import routes from "./views/Routes";
 
-import {
-	UserRoute
-} from "./routes";
-
 const history = createBrowserHistory();
 
 const mountNode = document.createElement("div");

@@ -4,11 +4,11 @@ import {Route, IndexRoute} from "react-router";
 import {
 	App, 
 	Main
-} from "./views";
+} from "./index";
 
 import {
 	UserQuery
-} from "./queries";
+} from "../queries";
 
 export default (
 	<Route path="/" component={App}>

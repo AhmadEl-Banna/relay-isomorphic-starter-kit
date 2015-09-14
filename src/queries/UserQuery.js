@@ -1,8 +1,12 @@
+import Relay from "react-relay";
+
 export default class UserQuery extends Relay.Route {
 	static queries = {
 		user: () => Relay.QL`
 			query {
-				user(id: $userId)
+				user(id: $userId) {
+					id
+				}
 			}
 		`
 	};

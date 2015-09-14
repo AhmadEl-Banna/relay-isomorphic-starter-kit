@@ -1,1 +1,1 @@
-export {default as UserRout} from "./UserRoute";
+export {default as UserQuery} from "./UserQuery";
