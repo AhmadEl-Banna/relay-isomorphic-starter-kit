@@ -4,7 +4,7 @@ import webpack from "webpack";
 import config from "./webpack.client";
 
 let hostname = process.env.HOSTNAME || "localhost";
-let port  = process.env.PORT ? parseInt(process.env.PORT) : 8080;
+let port  = process.env.PORT ? parseInt(process.env.PORT) : 8000;
 
 config.cache = true;
 config.debug = true;
@@ -40,7 +40,7 @@ config.module = {
 			exclude: /node_modules/,
 			loaders: [
 				"react-hot-loader",
-				"babel-loader?stage=0&optional=runtime&plugins[]=" + encodeURIComponent(path.join(__dirname, "srcipts", "babelRelayPlugin"))
+				"babel-loader?stage=0&optional=runtime&plugins[]=" + encodeURIComponent(path.join(__dirname, "scripts", "babelRelayPlugin"))
 			]
 		}
 	]
