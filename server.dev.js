@@ -8,6 +8,8 @@ require("babel/register")({
 global.isClient = false;
 global.isServer = true;
 
+process.env.DEBUG = true;
+
 if(process.env.NODE_ENV !== "production") {
 	if(!require("piping")({hook: true})) {
 		return;

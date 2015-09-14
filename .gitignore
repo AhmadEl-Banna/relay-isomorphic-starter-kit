@@ -2,3 +2,6 @@ node_modules
 
 *.log
 *.log.*
+
+src/data/schema.graphql
+src/data/schema.json

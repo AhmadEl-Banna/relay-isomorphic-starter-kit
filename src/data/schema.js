@@ -80,7 +80,9 @@ let mutationType = new GraphQLObjectType({
 	})
 });
 
-export default new GraphQLSchema({
+let schema = new GraphQLSchema({
 	query: queryType,
-	mutation: mutationType
+	// mutation: mutationType
 });
+
+export default schema;

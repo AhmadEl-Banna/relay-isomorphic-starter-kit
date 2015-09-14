@@ -1,4 +1,4 @@
-export default class UserRoute extends Relay.Route {
+export default class UserQuery extends Relay.Route {
 	static queries = {
 		user: () => Relay.QL`
 			query {
@@ -11,5 +11,5 @@ export default class UserRoute extends Relay.Route {
 			required: true
 		}
 	};
-	static routeName = "UserRoute";
+	static routeName = "UserQuery";
 };

@@ -36,7 +36,7 @@ let config = {
 				include: /\.js$/,
 				exclude: /node_modules/,
 				loaders: [
-					"babel-loader?stage=0&optional=runtime&plugins[]=" + encodeURIComponent(path.join(__dirname, "scripts", "babelRelayPlugin")
+					"babel-loader?stage=0&optional=runtime&plugins[]=" + encodeURIComponent(path.join(__dirname, "scripts", "babelRelayPlugin"))
 				]
 			}
 		]

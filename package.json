@@ -33,6 +33,7 @@
     "express-graphql": "^0.3.0",
     "graphql": "^0.4.3",
     "graphql-relay": "^0.3.2",
+    "history": "^1.9.0",
     "react": "^0.14.0-rc1",
     "react-dom": "^0.14.0-rc1",
     "react-inline-css": "^1.2.1",

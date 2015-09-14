@@ -5,7 +5,7 @@ import path from "path";
 import {graphql}  from "graphql";
 import {introspectionQuery, printSchema} from "graphql/utilities";
 
-import {Schema} from "../data/schema";
+import Schema from "../src/data/schema";
 
 async () => {
 	var result = await (graphql(Schema, introspectionQuery));
