@@ -21,12 +21,12 @@
   ],
   "main": "index.js",
   "scripts": {
-    "start": "babel-node ./src/server.js",
-    "update-schema": "babel-node ./scripts/updateSchema.js",
-    "build": "npm run update-schema && babel-node ./node_modules/webpack/bin/webpack.js --verbose --colors --display-error-details --config webpack.client.js",
-    "watch-server": "babel-node ./server.dev.js",
-    "watch-client": "babel-node ./node_modules/webpack/bin/webpack.js --verbose --colors --display-error-details --config webpack.client-watch.js && babel-node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config webpack.client-watch.js",
-    "watch": "babel-node ./node_modules/concurrently/src/main.js --kill-others \"npm run watch-client\" \"npm run watch-server\""
+    "start": "babel-node --stage 0 ./src/server.js",
+    "update-schema": "babel-node --stage 0 ./scripts/updateSchema.js",
+    "build": "npm run update-schema && babel-node --stage 0 ./node_modules/webpack/bin/webpack.js --verbose --colors --display-error-details --config webpack.client.js",
+    "watch-server": "babel-node --stage 0 ./server.dev.js",
+    "watch-client": "babel-node --stage 0 ./node_modules/webpack/bin/webpack.js --verbose --colors --display-error-details --config webpack.client-watch.js && babel-node --stage 0 ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config webpack.client-watch.js",
+    "watch": "babel-node --stage 0 ./node_modules/concurrently/src/main.js --kill-others \"npm run watch-client\" \"npm run watch-server\""
   },
   "dependencies": {
     "express": "^4.13.3",
