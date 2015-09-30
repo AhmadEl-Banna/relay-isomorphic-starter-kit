@@ -1,7 +1,6 @@
-export class User extends Object {};
+import Sequelize from "sequelize";
 
-export function getUser(id) {
-	let user = new User();
-	user.id = id;
-	return user;
-};
+export default new Sequelize(null, null, null, {
+	dialect: "sqlite",
+	storage: ":memory:"
+});

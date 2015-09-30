@@ -13,54 +13,25 @@ import {
 } from "graphql";
 
 import {
-	connectionArgs,
-	connectionDefinitions,
-	connectionFromArray,
-	connectionFromPromisedArray,
-	mutationWithClientMutationId,
-	nodeDefinitions,
-	fromGlobalId,
-	toGlobalId,
-	globalIdField
-} from "graphql-relay";
+	resolver
+} from "graphql-sequelize";
 
 import {
-	User,
-	getUser
-} from "./database";
-
-let {nodeInterface, nodeField} = nodeDefinitions(
-	(globalId) => {
-		let {type, id} = fromGlobalId(globalId);
-		if(type === "User") {
-			return getUser(id);
-		} else {
-			return null;
-		}
-	},
-	(obj) => {
-		if(obj instanceof User) {
-			return userType;
-		} else {
-			return null;
-		}
-	}
-);
+	User
+} from "./models";
 
 let userType = new GraphQLObjectType({
 	name: "User",
 	fields: () => ({
-		id: globalIdField("User")
-	}),
-	interfaces: [
-		nodeInterface
-	]
+		id: {
+			type: new GraphQLNonNull(GraphQLInt)
+		}
+	})
 });
 
 let queryType = new GraphQLObjectType({
 	name: "Query",
 	fields: () => ({
-		node: nodeField,
 		user: {
 			type: userType,
 			args: {
@@ -68,7 +39,19 @@ let queryType = new GraphQLObjectType({
 					type: new GraphQLNonNull(GraphQLInt)
 				}
 			},
-			resolve: (root, {id}) => getUser(id) 
+			resolve: resolver(User)
+		},
+		users: {
+			type: userType,
+			args: {
+				limit: {
+					type: GraphQLInt
+				},
+				order: {
+					type: GraphQLString
+				}
+			},
+			resolve: resolver(User)
 		}
 	})
 });

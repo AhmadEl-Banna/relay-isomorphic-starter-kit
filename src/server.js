@@ -9,15 +9,17 @@ let port = process.env.PORT ? parseInt(process.env.PORT) : 8080;
 
 let server = express();
 
-server.use(express.static(path.join(__dirname, "static")));
+server.disable("x-powered-by");
+
+server.use(express.static(path.join(__dirname, "public")));
 
 server.use("/", expressGraphQL({
 	schema: Schema,
 	pretty: debug
 }));
 
-server.get("*", function(req, res, next) {
-	response.sendFile(path.resolve(__dirname, "public", "index.html"));
+server.use((req, res, next) => {
+	res.sendFile(path.resolve(__dirname, "public", "index.html"));
 });
 
 server.listen(port);
