@@ -1,6 +1,7 @@
 import path from "path";
 import express from "express";
 import expressGraphQL from "express-graphql";
+import React from "react";
 import ReactDOM from "react-dom/server";
 import createLocation from "history/lib/createLocation";
 import {RoutingContext, match} from "react-router";
@@ -17,7 +18,7 @@ server.disable("x-powered-by");
 
 server.use(express.static(path.join(__dirname, "public")));
 
-server.use("/", expressGraphQL({
+server.use("/graphql", expressGraphQL({
 	schema: Schema,
 	pretty: debug
 }));

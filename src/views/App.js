@@ -29,4 +29,6 @@ class App extends React.Component {
 	}
 };
 
-export default Relay.createContainer(App, {});
+export default Relay.createContainer(App, {
+	fragments: {}
+});
