@@ -8,7 +8,6 @@ let port  = process.env.PORT ? parseInt(process.env.PORT) : 8000;
 
 config.cache = true;
 config.debug = true;
-config.watch = true;
 config.devtool = "eval";
 
 config.entry.unshift(
