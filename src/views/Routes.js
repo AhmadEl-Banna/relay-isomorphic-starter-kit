@@ -7,11 +7,12 @@ import {
 } from "./index";
 
 import {
+	AppQuery,
 	UserQuery
 } from "../queries";
 
 export default (
-	<Route path="/" component={App}>
+	<Route path="/" component={App} queries={AppQuery} >
 		<IndexRoute component={Main} queries={UserQuery} />
 	</Route>
 );

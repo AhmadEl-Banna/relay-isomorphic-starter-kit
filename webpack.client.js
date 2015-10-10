@@ -7,7 +7,7 @@ let config = {
 	context: __dirname,
 	entry: ["./src/client"],
 	output: {
-		path: path.join(__dirname, "static", "dist"),
+		path: path.join(__dirname, "public", "dist"),
 		filename: "client.js",
 		chunkFilename: "[name].[id].js",
 		publicPath: "dist/"

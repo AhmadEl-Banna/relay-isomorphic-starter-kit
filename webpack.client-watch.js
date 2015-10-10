@@ -48,7 +48,7 @@ config.module = {
 
 config.devServer = {
 	publicPath: "http://" + hostname + ":" + port + "/dist/",
-	contentBase: "./static",
+	contentBase: "./public",
 	hot: true,
 	inline: true,
 	lazy: false,

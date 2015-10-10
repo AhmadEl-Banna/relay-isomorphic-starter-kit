@@ -5,6 +5,7 @@ import React from "react";
 import ReactDOM from "react-dom/server";
 import createLocation from "history/lib/createLocation";
 import {RoutingContext, match} from "react-router";
+import ReactRouterRelay from "react-router";
 
 import routes from "./views/Routes";
 import Schema from "./data/schema";
@@ -16,7 +17,7 @@ let server = express();
 
 server.disable("x-powered-by");
 
-server.use(express.static(path.join(__dirname, "public")));
+server.use(express.static(path.join(__dirname, "..", "public")));
 
 server.use("/graphql", expressGraphQL({
 	schema: Schema,
@@ -24,37 +25,62 @@ server.use("/graphql", expressGraphQL({
 }));
 
 server.use((req, res, next) => {
-	let location = createLocation(req.url);
+	let render = [
+		`<!DOCTYPE html>
+		<html>
+			<head>
+				<title>relay-isomorphic-starter-kit</title>
+				<meta charset="utf-8" />
+			</head>
+			<body>
+				<div id="react-root"></div>
+				<script type="text/javascript" src="/dist/client.js"></script>
+			</body>
+		</html>`
+	].join("");
 
-	match({routes, location}, (err, redirectionLocation, renderProps) => {
-		if(redirectionLocation) {
-			return res.redirect(redirectionLocation.pathname);
-		}
-		if(err) {
-			return next(err);
-		}
-		if(!renderProps) {
-			return next(new Error("No render props"));
-		}
+	res.type("text/html");
+	res.send(render);
 
-		let rendered = ReactDOM.renderToString(<RoutingContext {...renderProps} />);
-		let helmet = Helmet.rewind();
-		let html = [
-			`<!DOCTYPE html>`,
-			`<html>`
-				`<head>`,
-					`<title>${helmet.title}</title>`,
-					helmet.meta,
-					helmet.link,
-					`<meta charset="utf-8" />`
-				`</head>`,
-				`<body>`,
-					`<div id="app">${rendered}</div>`
-					`<script type="text/javascript" src="/dist/client.js">`
-				`</body>`
-			`</html>`
-		].join("");
-	});
+
+	// let location = createLocation(req.originalUrl);
+
+	// TODO: fix this after Relay server-side rendering gets fixed
+
+	// match({routes, location}, (err, redirectionLocation, renderProps) => {
+	// 	if(redirectionLocation) {
+	// 		return res.redirect(redirectionLocation.pathname);
+	// 	}
+	// 	if(err) {
+	// 		return next(err);
+	// 	}
+	// 	if(!renderProps) {
+	// 		return next();
+	// 	}
+
+	// 	let rendered = ReactDOM.renderToString(
+	// 		<RoutingContext {...renderProps} createElement={ReactRouterRelay.createElement} />
+	// 	);
+	// 	let helmet = Helmet.rewind();
+	// 	let html = [
+	// 		`<!DOCTYPE html>,
+	// 		<html>
+	// 			<head>
+	// 				<title>${helmet.title}</title>`,
+	// 				helmet.meta,
+	// 				helmet.link,
+	// 				`<meta charset="utf-8" />
+	// 			</head>
+	// 			<body>
+	// 				<div id="react-root">${rendered}</div>
+	// 				<script type="text/javascript" src="/dist/client.js">
+	// 			</body>
+	// 		</html>`
+	// 	].join("");
+	//
+	// 	res.type("text/html");
+	// 	res.send(html);
+	// });
 });
 
 server.listen(port);
