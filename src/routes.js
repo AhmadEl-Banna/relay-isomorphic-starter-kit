@@ -13,6 +13,6 @@ import {
 
 export default (
 	<Route path="/" component={App} queries={AppQuery} >
-		<Route path="user/:userId" component={Main} queries={UserQuery} />
+		<Route path="user/:userId" component={Main} queries={UserQuery} prepareParams={(params, route) => ({...params, userId: parseInt(params.userId)})} />
 	</Route>
 );

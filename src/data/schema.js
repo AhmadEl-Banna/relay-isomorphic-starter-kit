@@ -13,6 +13,7 @@ import {
 } from "graphql";
 
 import {
+	attributeFields,
 	resolver
 } from "graphql-sequelize";
 
@@ -20,16 +21,11 @@ import {
 	User
 } from "./models";
 
+import util from "util";
+
 let userType = new GraphQLObjectType({
 	name: "User",
-	fields: () => ({
-		id: {
-			type: new GraphQLNonNull(GraphQLInt)
-		},
-		name: {
-			type: GraphQLString
-		}
-	})
+	fields: () => attributeFields(User)
 });
 
 let queryType = new GraphQLObjectType({
