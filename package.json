@@ -29,11 +29,13 @@
     "watch": "babel-node --stage 0 ./node_modules/concurrently/src/main.js --kill-others \"npm run watch-client\" \"npm run watch-server\""
   },
   "dependencies": {
+    "body-parser": "^1.14.1",
     "express": "^4.13.3",
     "express-graphql": "^0.3.0",
+    "express-winston": "^0.4.1",
     "graphql": "^0.4.3",
     "graphql-relay": "^0.3.2",
-    "graphql-sequelize": "^0.9.0",
+    "graphql-sequelize": "^0.11.0",
     "history": "^1.9.0",
     "react": "^0.14.0-rc1",
     "react-dom": "^0.14.0-rc1",
@@ -42,7 +44,8 @@
     "react-router": "^1.0.0-rc1",
     "react-router-relay": "^0.5.0",
     "sequelize": "^3.9.0",
-    "sqlite3": "^3.1.0"
+    "sqlite3": "^3.1.0",
+    "winston": "^1.1.0"
   },
   "devDependencies": {
     "babel": "^5.8.23",
@@ -51,6 +54,7 @@
     "babel-relay-plugin": "^0.2.2",
     "babel-runtime": "^5.8.20",
     "concurrently": "^0.1.1",
+    "dotenv": "^1.2.0",
     "json-loader": "^0.5.2",
     "piping": "^0.2.0",
     "react-hot-loader": "^1.3.0",

@@ -1,6 +1,12 @@
 import path from "path";
+import http from "http";
+import https from "https";
+import dotenv from "dotenv";
+import winston from "winston";
 import express from "express";
+import expressWinston from "express-winston";
 import expressGraphQL from "express-graphql";
+import bodyParser from "body-parser";
 import React from "react";
 import ReactDOM from "react-dom/server";
 import createLocation from "history/lib/createLocation";
@@ -10,21 +16,62 @@ import ReactRouterRelay from "react-router";
 import routes from "./routes";
 import Schema from "./data/schema";
 
-let debug = process.env.DEBUG == "true";
-let port = process.env.PORT || 8080;
+const config = {
+	debug: process.env.NODE_ENV !== "production",
+	log: path.join(__dirname, "..", "logs", "server.log"),
 
-let server = express();
+	port: process.env.PORT || 8080,
+	https: process.env.HTTPS === true || process.env.HTTPS === "true",
+	httpsOptions: {},
 
-server.disable("x-powered-by");
+	distURL: process.env.DIST_URL || ""
+};
 
-server.use(express.static(path.join(__dirname, "..", "public")));
+const log = new winston.Logger({
+	transports: [
+		new winston.transports.Console({
+			colorize: true,
+			timestamp: true,
+			level: config.debug ? "debug" : "info"
+		}),
+		new winston.transports.DailyRotateFile({
+			filename: config.log,
+			timestamp: true,
+			level: "debug"
+		})
+	]
+});
 
-server.use("/graphql", expressGraphQL({
-	schema: Schema,
-	pretty: debug
+let app = express();
+
+app.disable("x-powered-by");
+
+app.use(express.static(path.join(__dirname, "..", "public")));
+
+app.use(expressWinston.logger({
+	winstonInstance: log,
+	level: "info",
+	expressFormat: true,
+	meta: false
 }));
 
-server.use((req, res, next) => {
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({
+	extended: true
+}));
+
+app.use((req, res, next) => {
+	log.info(req.body);
+	next();
+});
+
+app.use("/graphql", expressGraphQL({
+	schema: Schema,
+	pretty: config.debug,
+	graphiql: true
+}));
+
+app.use((req, res, next) => {
 	let render = [
 		`<!DOCTYPE html>
 		<html>
@@ -34,7 +81,7 @@ server.use((req, res, next) => {
 			</head>
 			<body>
 				<div id="react-root"></div>
-				<script type="text/javascript" src="${process.env.DIST_URL || ""}/dist/client.js"></script>
+				<script type="text/javascript" src="${config.distURL}/dist/client.js"></script>
 			</body>
 		</html>`
 	].join("");
@@ -83,6 +130,19 @@ server.use((req, res, next) => {
 	// });
 });
 
-server.listen(port);
+app.use(expressWinston.errorLogger({
+	winstonInstance: log
+}));
+
+let server = null;
+if(config.https) {
+	server = https.createServer(config.httpsOptions, app);
+} else {
+	server = http.createServer(app);
+}
+
+server.listen(config.port);
+
+log.info("Server started listening on port " + config.port);
 
 export default server;

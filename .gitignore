@@ -3,6 +3,8 @@ node_modules
 *.log
 *.log.*
 
+.env
+
 src/data/schema.graphql
 src/data/schema.json
 
