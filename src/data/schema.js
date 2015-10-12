@@ -25,6 +25,9 @@ let userType = new GraphQLObjectType({
 	fields: () => ({
 		id: {
 			type: new GraphQLNonNull(GraphQLInt)
+		},
+		name: {
+			type: GraphQLString
 		}
 	})
 });
@@ -42,7 +45,7 @@ let queryType = new GraphQLObjectType({
 			resolve: resolver(User)
 		},
 		users: {
-			type: userType,
+			type: new GraphQLList(userType),
 			args: {
 				limit: {
 					type: GraphQLInt

@@ -13,6 +13,6 @@ import {
 
 export default (
 	<Route path="/" component={App} queries={AppQuery} >
-		<IndexRoute component={Main} queries={UserQuery} />
+		<Route path="user/:userId" component={Main} queries={UserQuery} />
 	</Route>
 );

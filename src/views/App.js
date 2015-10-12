@@ -3,7 +3,7 @@ import Relay from "react-relay";
 
 class App extends React.Component {
 	static propTypes = {
-		children: React.PropTypes.node.isRequired
+		children: React.PropTypes.node
 	};
 
 	render() {
