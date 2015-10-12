@@ -4,7 +4,7 @@ import {Router} from "react-router";
 import RouterRelay from "react-router-relay";
 import createBrowserHistory from "history/lib/createBrowserHistory";
 
-import routes from "./views/Routes";
+import routes from "./routes";
 
 console.log("client loaded");
 

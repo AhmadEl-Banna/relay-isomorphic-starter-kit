@@ -6,4 +6,4 @@ node_modules
 src/data/schema.graphql
 src/data/schema.json
 
-static/dist
+public/dist

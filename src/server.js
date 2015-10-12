@@ -7,11 +7,11 @@ import createLocation from "history/lib/createLocation";
 import {RoutingContext, match} from "react-router";
 import ReactRouterRelay from "react-router";
 
-import routes from "./views/Routes";
+import routes from "./routes";
 import Schema from "./data/schema";
 
 let debug = process.env.DEBUG == "true";
-let port = process.env.PORT ? parseInt(process.env.PORT) : 8080;
+let port = process.env.PORT || 8080;
 
 let server = express();
 
@@ -34,7 +34,7 @@ server.use((req, res, next) => {
 			</head>
 			<body>
 				<div id="react-root"></div>
-				<script type="text/javascript" src="/dist/client.js"></script>
+				<script type="text/javascript" src="${process.env.DIST_URL || ""}/dist/client.js"></script>
 			</body>
 		</html>`
 	].join("");

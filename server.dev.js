@@ -8,11 +8,8 @@ global.isClient = false;
 global.isServer = true;
 
 process.env.DEBUG = true;
+process.env.DIST_URL = "http://localhost:8000";
 
-if(process.env.NODE_ENV !== "production") {
-	if(require("piping")({hook: true})) {
-		require("./src/server");
-	}
-} else {
+if(require("piping")({hook: true})) {
 	require("./src/server");
 }
