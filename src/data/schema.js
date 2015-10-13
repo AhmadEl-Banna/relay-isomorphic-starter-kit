@@ -43,6 +43,9 @@ let queryType = new GraphQLObjectType({
 		users: {
 			type: new GraphQLList(userType),
 			args: {
+				offset: {
+					type: GraphQLInt
+				},
 				limit: {
 					type: GraphQLInt
 				},
