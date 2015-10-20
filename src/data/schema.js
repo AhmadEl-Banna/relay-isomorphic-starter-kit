@@ -1,4 +1,3 @@
-import util from "util";
 import _ from "lodash";
 
 import {
@@ -17,26 +16,47 @@ import {
 
 import {
 	attributeFields,
-	resolver
+	resolver,
+	relay
 } from "graphql-sequelize";
+
+import {
+	fromGlobalId
+} from "graphql-relay";
+
+import database from "./database";
 
 import {
 	User
 } from "./models";
 
+const {
+	nodeInterface,
+	nodeField,
+	nodeTypeMapper
+} = relay.sequelizeNodeInterface(database);
+
 let userType = new GraphQLObjectType({
 	name: "User",
-	fields: () => _.assign(attributeFields(User), {
-		id: {
-			type: new GraphQLNonNull(GraphQLID),
-			resolve: (user) => {console.log("TEST: " + typeof user.id.toString()); return user.id.toString();}
+	fields: () => _.assign(attributeFields(User, {
+		globalId: true
+	}), {
+		_id: {
+			type: new GraphQLNonNull(GraphQLInt),
+			resolve: (user) => user.id
 		}
-	})
+	}),
+	interfaces: [nodeInterface]
+});
+
+nodeTypeMapper.mapTypes({
+	[User.name]: userType
 });
 
 let queryType = new GraphQLObjectType({
 	name: "Query",
 	fields: () => ({
+		node: nodeField,
 		user: {
 			type: userType,
 			args: {

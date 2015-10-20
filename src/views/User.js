@@ -7,7 +7,7 @@ class Main extends React.Component {
 		return (
 			<InlineCss stylesheet={Main.css()} namespace = "Main">
 				<div>
-					<h3>User {this.props.user.id}</h3>
+					<h3>User {this.props.user._id}: {this.props.user.name}</h3>
 					<p>This user is just a test</p>
 				</div>
 			</InlineCss>
@@ -36,6 +36,7 @@ export default Relay.createContainer(Main, {
 		user: () => Relay.QL`
 			fragment on User {
 				id
+				_id
 				name
 			}
 		`
