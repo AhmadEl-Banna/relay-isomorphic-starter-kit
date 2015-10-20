@@ -1,3 +1,6 @@
+import util from "util";
+import _ from "lodash";
+
 import {
 	GraphQLSchema,
 	GraphQLObjectType,
@@ -21,11 +24,14 @@ import {
 	User
 } from "./models";
 
-import util from "util";
-
 let userType = new GraphQLObjectType({
 	name: "User",
-	fields: () => attributeFields(User)
+	fields: () => _.assign(attributeFields(User), {
+		id: {
+			type: new GraphQLNonNull(GraphQLID),
+			resolve: (user) => {console.log("TEST: " + typeof user.id.toString()); return user.id.toString();}
+		}
+	})
 });
 
 let queryType = new GraphQLObjectType({
@@ -35,7 +41,7 @@ let queryType = new GraphQLObjectType({
 			type: userType,
 			args: {
 				id: {
-					type: new GraphQLNonNull(GraphQLInt)
+					type: new GraphQLNonNull(GraphQLID)
 				}
 			},
 			resolve: resolver(User)
