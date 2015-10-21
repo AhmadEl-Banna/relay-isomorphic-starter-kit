@@ -1,6 +1,7 @@
 import React from "react";
 import Relay from "react-relay";
 import {Link, IndexLink} from "react-router";
+import Helmet from "react-helmet";
 
 class App extends React.Component {
 	static propTypes = {
@@ -10,6 +11,8 @@ class App extends React.Component {
 	render() {
 		return (
 			<section>
+				<Helmet title="Home" titleTemplate="%s - relay-isomorphic-starter-kit" />
+
 				<header>
 					<h1>Relay Isomorphic Starter Kit</h1>
 				</header>

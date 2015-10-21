@@ -10,6 +10,7 @@ Starter kit for an isomorphic Relay application
 * Webpack for watching and production builds
 * React + React Router for rendering
 * InlineCSS-component for styling components
+* Helmet-component for titles and meta
 * Relay + React Router Relay for data fetching
 * GraphQL + GraphQL Sequelize for automatic GraphQL schema generation from the Sequelize database schema
 * Babel.js automatically compiles ES6 + ES7
@@ -21,6 +22,7 @@ git clone https://github.com/DanielHuisman/relay-isomorphic-starter-kit
 cd relay-isomorphic-starter-kit
 
 npm install
+npm run update-schema
 ```
 
 ## Usage
