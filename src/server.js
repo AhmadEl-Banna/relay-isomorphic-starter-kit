@@ -16,6 +16,8 @@ import ReactRouterRelay from "react-router";
 import routes from "./routes";
 import Schema from "./data/schema";
 
+dotenv.load();
+
 const config = {
 	debug: process.env.NODE_ENV !== "production",
 	log: path.join(__dirname, "..", "logs", "server.log"),
@@ -62,11 +64,6 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }));
 
-app.use((req, res, next) => {
-	log.info(req.body);
-	next();
-});
-
 app.use("/graphql", expressGraphQL({
 	schema: Schema,
 	pretty: config.debug,
@@ -75,7 +72,7 @@ app.use("/graphql", expressGraphQL({
 
 app.use((req, res, next) => {
 	// Isomorphic rendering is disabled until it actually works
-	if(false || config.isomorphic) {
+	if(false && config.isomorphic) {
 		// let location = createLocation(req.originalUrl);
 
 		// TODO: fix this after Relay server-side rendering gets fixed
