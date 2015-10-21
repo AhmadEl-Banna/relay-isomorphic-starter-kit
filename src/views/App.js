@@ -19,11 +19,12 @@ class App extends React.Component {
 
 				<footer>
 					<ul>
-						<li><a href="/users/1">User 1</a></li>
-						<li><a href="/users/2">User 2</a></li>
-						<li><a href="/users/3">User 3</a></li>
-						<li><a href="/users/4">User 4</a></li>
-						<li><a href="/users/5">User 5</a></li>
+						<li><a href="/">Home</a></li>
+						<li><a href="/user/1">User 1</a></li>
+						<li><a href="/user/2">User 2</a></li>
+						<li><a href="/user/3">User 3</a></li>
+						<li><a href="/user/4">User 4</a></li>
+						<li><a href="/user/5">User 5</a></li>
 					</ul>
 					<p>
 						<a href="https://github.com/DanielHuisman/relay-isomorphic-starter-kit">

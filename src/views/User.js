@@ -7,8 +7,20 @@ class Main extends React.Component {
 		return (
 			<InlineCss stylesheet={Main.css()} namespace = "Main">
 				<div>
-					<h3>User {this.props.user._id}: {this.props.user.name}</h3>
-					<p>This user is just a test</p>
+					{(() => {
+						if(this.props.user) {
+							return (
+								<div>
+									<h3>User {this.props.user._id}: {this.props.user.name}</h3>
+									<p>This user is just a test</p>
+								</div>
+							);
+						} else {
+							return (
+								<h3>User not found</h3>
+							);
+						}
+					})()}
 				</div>
 			</InlineCss>
 		);
