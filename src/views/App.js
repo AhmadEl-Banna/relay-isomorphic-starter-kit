@@ -1,5 +1,6 @@
 import React from "react";
 import Relay from "react-relay";
+import {Link, IndexLink} from "react-router";
 
 class App extends React.Component {
 	static propTypes = {
@@ -19,12 +20,12 @@ class App extends React.Component {
 
 				<footer>
 					<ul>
-						<li><a href="/">Home</a></li>
-						<li><a href="/user/1">User 1</a></li>
-						<li><a href="/user/2">User 2</a></li>
-						<li><a href="/user/3">User 3</a></li>
-						<li><a href="/user/4">User 4</a></li>
-						<li><a href="/user/5">User 5</a></li>
+						<li><IndexLink to="/">Home</IndexLink></li>
+						<li><Link to="/user/1">User 1</Link></li>
+						<li><Link to="/user/2">User 2</Link></li>
+						<li><Link to="/user/3">User 3</Link></li>
+						<li><Link to="/user/4">User 4</Link></li>
+						<li><Link to="/user/5">User 5</Link></li>
 					</ul>
 					<p>
 						<a href="https://github.com/DanielHuisman/relay-isomorphic-starter-kit">
