@@ -12,6 +12,13 @@ import ReactDOM from "react-dom/server";
 import createLocation from "history/lib/createLocation";
 import {RoutingContext, match} from "react-router";
 import ReactRouterRelay from "react-router";
+import Relay from "react-relay";
+import GraphQLStoreChangeEmitter from "react-relay/lib/GraphQLStoreChangeEmitter";
+import {injectNetworkLayer} from "isomorphic-relay";
+import {
+    IsomorphicRelayRoutingContext,
+    loadAndStoreData,
+} from "isomorphic-relay-router";
 
 import routes from "./routes";
 import Schema from "./data/schema";
@@ -46,6 +53,10 @@ const log = new winston.Logger({
 	]
 });
 
+// Configure isomorphic Relay
+injectNetworkLayer(new Relay.DefaultNetworkLayer("http://localhost:8080/graphql"));
+GraphQLStoreChangeEmitter.injectBatchingStrategy(() => {});
+
 let app = express();
 
 app.disable("x-powered-by");
@@ -73,7 +84,49 @@ app.use("/graphql", expressGraphQL({
 app.use((req, res, next) => {
 	// Isomorphic rendering is disabled until it actually works
 	if(false && config.isomorphic) {
-		// let location = createLocation(req.originalUrl);
+		let location = createLocation(req.originalUrl);
+
+		match({routes, location}, (err, redirectLocation, renderProps) => {
+			if(err) {
+				return next(err);
+			}
+			if(redirectLocation) {
+				res.redirect(302, redirectLocation.pathname + redirectLocation.search);
+			}
+			if(!renderProps) {
+				return next();
+			}
+
+			loadAndStoreData(renderProps).then((data) => {
+				let rendered = ReactDOM.renderToString(
+					<IsomorphicRelayRoutingContext {...renderProps} createElement={ReactRouterRelay.createElement} />
+				);
+				let helmet = Helmet.rewind();
+				let render = [
+					`<!doctype html>
+					<html>
+						<head>
+							<title>relay-isomorphic-starter-kit</title>
+							<title>${helmet.title}</title>`,
+							helmet.meta,
+							helmet.link,
+							`<meta charset="utf-8">
+							<meta name="viewport" content="width=device-width, initial-scale=1">
+						</head>
+						<body>
+							<div id="react-root">${rendered}</div>
+   							<script id="preloadedData" type="application/json">${JSON.stringify(data)}</script>
+							<script type="text/javascript" src="${config.distURL}/dist/client.js"></script>
+						</body>
+					</html>`
+				].join("");
+
+				res.type("text/html");
+				res.send(render);
+			}, next);
+		});
+
+		
 
 		// TODO: fix this after Relay server-side rendering gets fixed
 
@@ -113,11 +166,12 @@ app.use((req, res, next) => {
 		// });
 	} else {
 		let render = [
-			`<!DOCTYPE html>
+			`<!doctype html>
 			<html>
 				<head>
 					<title>relay-isomorphic-starter-kit</title>
-					<meta charset="utf-8" />
+					<meta charset="utf-8">
+					<meta name="viewport" content="width=device-width, initial-scale=1">
 				</head>
 				<body>
 					<div id="react-root"></div>
