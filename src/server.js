@@ -83,7 +83,7 @@ app.use("/graphql", expressGraphQL({
 
 app.use((req, res, next) => {
 	// Isomorphic rendering is disabled until it actually works
-	if(false && config.isomorphic) {
+	if(config.isomorphic) {
 		let location = createLocation(req.originalUrl);
 
 		match({routes, location}, (err, redirectLocation, renderProps) => {
@@ -175,6 +175,7 @@ app.use((req, res, next) => {
 				</head>
 				<body>
 					<div id="react-root"></div>
+					<script id="preloadedData" type="application/json"></script>
 					<script type="text/javascript" src="${config.distURL}/dist/client.js"></script>
 				</body>
 			</html>`
